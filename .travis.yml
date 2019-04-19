@@ -1,0 +1,12 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t utsavjha14/docker_react -f Dockerfile.dev .
+
+#  the double -- in script below is used to send an exit STDIN Message to the container console, awaiting our response after the test
+#  By default, travis implies that the tests are a single trigger job- launch and forget..
+#  But in the case of this react application, the test suite waits for an input to end the testing.
+script:
+  - docker run utsavjha14/docker_react npm run test -- --coverage
